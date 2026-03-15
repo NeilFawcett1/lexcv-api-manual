@@ -24,6 +24,71 @@ Use standard login envelope:
 ### UUIDs
 All UUID fields are canonical UUID strings.
 
+### Time zone allowlist
+Chronos accepts only the following timezone strings for `time_zone` and `event_tz`.
+Aliases like `GMT` are rejected.
+
+- `UTC`
+- `Europe/London`
+- `Europe/Dublin`
+- `Europe/Lisbon`
+- `Europe/Paris`
+- `Europe/Berlin`
+- `Europe/Amsterdam`
+- `Europe/Brussels`
+- `Europe/Zurich`
+- `Europe/Madrid`
+- `Europe/Rome`
+- `Europe/Vienna`
+- `Europe/Prague`
+- `Europe/Warsaw`
+- `Europe/Stockholm`
+- `Europe/Copenhagen`
+- `Europe/Helsinki`
+- `Europe/Athens`
+- `Europe/Bucharest`
+- `Europe/Kyiv`
+- `Europe/Istanbul`
+- `America/New_York`
+- `America/Chicago`
+- `America/Denver`
+- `America/Los_Angeles`
+- `America/Phoenix`
+- `America/Toronto`
+- `America/Vancouver`
+- `America/Mexico_City`
+- `America/Bogota`
+- `America/Lima`
+- `America/Santiago`
+- `America/Sao_Paulo`
+- `America/Argentina/Buenos_Aires`
+- `Asia/Dubai`
+- `Asia/Riyadh`
+- `Asia/Jerusalem`
+- `Asia/Tehran`
+- `Asia/Karachi`
+- `Asia/Kolkata`
+- `Asia/Dhaka`
+- `Asia/Bangkok`
+- `Asia/Singapore`
+- `Asia/Jakarta`
+- `Asia/Manila`
+- `Asia/Hong_Kong`
+- `Asia/Shanghai`
+- `Asia/Taipei`
+- `Asia/Seoul`
+- `Asia/Tokyo`
+- `Australia/Sydney`
+- `Australia/Melbourne`
+- `Australia/Brisbane`
+- `Australia/Perth`
+- `Pacific/Auckland`
+- `Pacific/Fiji`
+- `Africa/Cairo`
+- `Africa/Johannesburg`
+- `Africa/Nairobi`
+- `Africa/Lagos`
+
 ### Calendar row contract (canonical)
 Whenever a calendar row is returned, the row shape is:
 - `[0]` `calendar_uuid`
@@ -32,7 +97,7 @@ Whenever a calendar row is returned, the row shape is:
 - `[3]` `group_uuid` (empty when none)
 - `[4]` `name`
 - `[5]` `description`
-- `[6]` `time_zone` (IANA)
+- `[6]` `time_zone` (Chronos allowlist; see Time zone allowlist)
 - `[7]` `color_hex`
 - `[8]` `is_primary` (`"0"|"1"`)
 - `[9]` `visibility` (`private|shared|public_link`)
@@ -52,7 +117,7 @@ Purpose:
 Request (`p3`):
 - `[0]` `name` (required)
 - `[1]` `description` (optional)
-- `[2]` `time_zone` (optional, default `UTC`)
+- `[2]` `time_zone` (optional, default `UTC`; must be in Time zone allowlist)
 - `[3]` `color_hex` (optional, default `#1F7A8C`)
 - `[4]` `is_primary` (optional, `0|1`, default `0`)
 - `[5]` `visibility` (optional, `private|shared|public_link`, default `private`)
