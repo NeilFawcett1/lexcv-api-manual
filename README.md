@@ -19,6 +19,7 @@ Complete API reference for the LexCV Server.
 | [07_Social_APIs.md](07_Social_APIs.md) | Follow, shortlist, peer profiles |
 | [08_System_APIs.md](08_System_APIs.md) | Config, WebSocket, utilities |
 | [09_Admin_APIs.md](09_Admin_APIs.md) | Administrative functions |
+| [13_Chronos_APIs.md](13_Chronos_APIs.md) | Chronos calendars, events, scheduling, and groupware APIs |
 
 
 ---
