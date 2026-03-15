@@ -235,13 +235,17 @@ Attendee row contract:
 - `[0]` `attendee_uuid`
 - `[1]` `event_uuid`
 - `[2]` `attendee_user_uuid`
-- `[3]` `attendee_email`
+- `[3]` `attendee_email` (required)
 - `[4]` `display_name`
-- `[5]` `response_status`
-- `[6]` `is_optional`
-- `[7]` `is_organizer`
-- `[8]` `created_at_ms`
-- `[9]` `updated_at_ms`
+- `[5]` `comment_text`
+- `[6]` `additional_guests`
+- `[7]` `response_status`
+- `[8]` `is_optional`
+- `[9]` `is_organizer`
+- `[10]` `is_resource`
+- `[11]` `is_self`
+- `[12]` `created_at_ms`
+- `[13]` `updated_at_ms`
 
 ## CAPI_PatchEvent
 Request (`p3`):
@@ -303,11 +307,15 @@ Request:
 
 Attendee upsert row (`p4[i]`):
 - `[0]` `attendee_user_uuid` (optional)
-- `[1]` `attendee_email` (required if user uuid empty)
+- `[1]` `attendee_email` (required)
 - `[2]` `display_name` (optional)
-- `[3]` `response_status` (`needsAction|accepted|tentative|declined`)
-- `[4]` `is_optional` (`0|1`)
-- `[5]` `is_organizer` (`0|1`)
+- `[3]` `comment_text` (optional)
+- `[4]` `additional_guests` (optional, default `0`)
+- `[5]` `response_status` (`needsAction|accepted|tentative|declined`)
+- `[6]` `is_optional` (`0|1`)
+- `[7]` `is_organizer` (`0|1`)
+- `[8]` `is_resource` (`0|1`, optional)
+- `[9]` `is_self` (`0|1`, optional)
 
 Response:
 - `p1`: `Success|Fail`
