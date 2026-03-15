@@ -155,13 +155,16 @@ Example request:
 Purpose:
 - List calendars owned by authenticated user.
 
-Request:
-- No additional `p3` parameters currently required.
+Request (`p3`, optional):
+- `[0]` `offset` (0-based)
+- `[1]` `limit` (server-capped)
 
 Response:
 - `p1`: `Success|Fail`
 - `p2`: error message on failure
-- `p3[0]`: total rows returned (count)
+- `p3[0]`: total rows
+- `p3[1]`: effective offset
+- `p3[2]`: effective limit
 - `p4`: array of calendar rows using canonical calendar row contract
 
 Example response shape:
@@ -194,6 +197,9 @@ Response:
 - `p3`: calendar row (canonical contract)
 
 ## CAPI_PatchCalendar
+Status:
+- Implemented.
+
 Request (`p3`):
 - `[0]` `calendar_uuid` (required)
 - `[1]` `name` (optional)
@@ -203,14 +209,21 @@ Request (`p3`):
 - `[5]` `visibility` (optional)
 - `[6]` `status` (optional: `active|archived|deleted`)
 - `[7]` `version` (required optimistic concurrency)
-- `[8]` `request_uuid` (required idempotency)
+- `[8]` `request_uuid` (required for client replay-safe contract)
 
 Response:
 - `p1`: `Success|Fail`
 - `p2`: error text
 - `p3`: updated calendar row
 
+Replay/idempotency semantics:
+- Write is emitted via Sacred Timeline transactional outbox.
+- Replays are safe because patch uses optimistic concurrency (`version`).
+
 ## CAPI_DeleteCalendar
+Status:
+- Implemented.
+
 Request (`p3`):
 - `[0]` `calendar_uuid` (required)
 - `[1]` `request_uuid` (required)
@@ -221,6 +234,10 @@ Response:
 - `p3[0]`: `calendar_uuid`
 - `p3[1]`: resulting `status` (`deleted`)
 - `p3[2]`: `deleted_at_ms`
+
+Replay/idempotency semantics:
+- Write is emitted via Sacred Timeline transactional outbox.
+- Replays are safe because delete query only applies when status is not already `deleted`.
 
 ## CAPI_ListSharedCalendars
 Request (`p3`):
