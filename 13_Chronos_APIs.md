@@ -25,8 +25,12 @@ Use standard login envelope:
 All UUID fields are canonical UUID strings.
 
 ### Time zone allowlist
-Chronos accepts only the following timezone strings for `time_zone` and `event_tz`.
+Chronos accepts only the following timezone strings for calendar `time_zone` values.
 Aliases like `GMT` are rejected.
+
+Event timezone policy:
+- `event_tz` is server-managed and always set to the owning calendar `time_zone`.
+- Event create/patch requests may still include `event_tz` for backward compatibility, but it is ignored.
 
 - `UTC`
 - `Europe/London`
@@ -335,7 +339,7 @@ Request (`p3`):
 - `[4]` `start_at_ms` (required epoch ms)
 - `[5]` `end_at_ms` (required epoch ms)
 - `[6]` `all_day` (`0|1`, optional)
-- `[7]` `event_tz` (optional, default `UTC`)
+- `[7]` `event_tz` (compatibility-only; ignored, event timezone is inherited from calendar)
 - `[8]` `visibility` (`default|public|private|confidential`, optional)
 - `[9]` `transparency` (`opaque|transparent`, optional)
 - `[10]` `recurrence_rrule` (optional)
@@ -349,6 +353,7 @@ Server behavior details:
 - `start_at_ms` and `end_at_ms` are validated as Chronos epoch ms range with `end_at_ms > start_at_ms`.
 - `title` max 255, `description` max 4000, `location` max 255 after sanitization.
 - Empty optional JSON fields are persisted as `NULL`.
+- `event_tz` is always set to owning calendar `time_zone`.
 
 Response:
 - `p1`: `Success|Fail`
@@ -414,7 +419,7 @@ Request (`p3`):
 - `[5]` `start_at_ms` (optional)
 - `[6]` `end_at_ms` (optional)
 - `[7]` `all_day` (optional)
-- `[8]` `event_tz` (optional)
+- `[8]` `event_tz` (compatibility-only; ignored, event timezone stays calendar-derived)
 - `[9]` `visibility` (optional)
 - `[10]` `transparency` (optional)
 - `[11]` `recurrence_rrule` (optional)
@@ -426,6 +431,7 @@ Request (`p3`):
 Server behavior details:
 - `event_uuid` must belong to provided `calendar_uuid`.
 - `version` is optimistic concurrency guard.
+- `event_tz` is recalculated from owning calendar `time_zone` on every patch.
 - If DB update affects 0 rows and current row already equals requested state, returns success as replay-safe no-op.
 - If DB update affects 0 rows and state differs, returns `version conflict`.
 
