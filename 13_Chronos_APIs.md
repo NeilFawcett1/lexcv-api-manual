@@ -2,9 +2,6 @@
 
 All Chronos endpoints are `POST` and use the standard `RObj` envelope.
 
-Current route base:
-- `/api/chronos/CAPI_*`
-
 This manual includes:
 - Implemented APIs (live in code now)
 - Planned Chronos APIs (contract-first design)
@@ -49,9 +46,6 @@ Whenever a calendar row is returned, the row shape is:
 ## Implemented APIs
 
 ## CAPI_CreateCalendar
-Path:
-- `/api/chronos/CAPI_CreateCalendar`
-
 Purpose:
 - Create a user-owned calendar with transactional outbox + Sacred Timeline event.
 
@@ -93,9 +87,6 @@ Example request:
 ```
 
 ## CAPI_ListCalendars
-Path:
-- `/api/chronos/CAPI_ListCalendars`
-
 Purpose:
 - List calendars owned by authenticated user.
 
@@ -129,9 +120,6 @@ Note:
 - Authorization decisions are Cato-backed.
 
 ## CAPI_GetCalendar
-Path:
-- `/api/chronos/CAPI_GetCalendar`
-
 Request (`p3`):
 - `[0]` `calendar_uuid` (required)
 
@@ -141,9 +129,6 @@ Response:
 - `p3`: calendar row (canonical contract)
 
 ## CAPI_PatchCalendar
-Path:
-- `/api/chronos/CAPI_PatchCalendar`
-
 Request (`p3`):
 - `[0]` `calendar_uuid` (required)
 - `[1]` `name` (optional)
@@ -161,9 +146,6 @@ Response:
 - `p3`: updated calendar row
 
 ## CAPI_DeleteCalendar
-Path:
-- `/api/chronos/CAPI_DeleteCalendar`
-
 Request (`p3`):
 - `[0]` `calendar_uuid` (required)
 - `[1]` `request_uuid` (required)
@@ -176,9 +158,6 @@ Response:
 - `p3[2]`: `deleted_at_ms`
 
 ## CAPI_ListSharedCalendars
-Path:
-- `/api/chronos/CAPI_ListSharedCalendars`
-
 Request (`p3`):
 - `[0]` `offset` (optional, default `0`)
 - `[1]` `limit` (optional, server-capped)
@@ -192,9 +171,6 @@ Response:
 - `p4`: calendar rows visible by Cato permissions
 
 ## CAPI_CreateEvent
-Path:
-- `/api/chronos/CAPI_CreateEvent`
-
 Request (`p3`):
 - `[0]` `calendar_uuid` (required)
 - `[1]` `title` (required)
@@ -246,9 +222,6 @@ Event row contract (`p3`):
 - `[23]` `updated_at_ms`
 
 ## CAPI_GetEvent
-Path:
-- `/api/chronos/CAPI_GetEvent`
-
 Request (`p3`):
 - `[0]` `event_uuid` (required)
 
@@ -271,9 +244,6 @@ Attendee row contract:
 - `[9]` `updated_at_ms`
 
 ## CAPI_PatchEvent
-Path:
-- `/api/chronos/CAPI_PatchEvent`
-
 Request (`p3`):
 - `[0]` `event_uuid` (required)
 - `[1]` `title` (optional)
@@ -297,9 +267,6 @@ Response:
 - `p3`: updated event row
 
 ## CAPI_DeleteEvent
-Path:
-- `/api/chronos/CAPI_DeleteEvent`
-
 Request (`p3`):
 - `[0]` `event_uuid` (required)
 - `[1]` `request_uuid` (required)
@@ -312,9 +279,6 @@ Response:
 - `p3[2]`: `updated_at_ms`
 
 ## CAPI_ListEventsRange
-Path:
-- `/api/chronos/CAPI_ListEventsRange`
-
 Request (`p3`):
 - `[0]` `calendar_uuid` (required)
 - `[1]` `range_start_at_ms` (required)
@@ -332,9 +296,6 @@ Response:
 - `p4`: event row list
 
 ## CAPI_SetEventAttendees
-Path:
-- `/api/chronos/CAPI_SetEventAttendees`
-
 Request:
 - `p3[0]`: `event_uuid`
 - `p3[1]`: `request_uuid`
@@ -355,9 +316,6 @@ Response:
 - `p3[1]`: attendee count
 
 ## CAPI_WorkgroupCreate
-Path:
-- `/api/chronos/CAPI_WorkgroupCreate`
-
 Request (`p3`):
 - `[0]` `name` (required)
 - `[1]` `description` (optional)
@@ -369,9 +327,6 @@ Response:
 - `p3`: workgroup row (`group_uuid`, owner/company uuid, name, description, status, created_at_ms, updated_at_ms)
 
 ## CAPI_WorkgroupPatch
-Path:
-- `/api/chronos/CAPI_WorkgroupPatch`
-
 Request (`p3`):
 - `[0]` `group_uuid` (required)
 - `[1]` `name` (optional)
@@ -386,9 +341,6 @@ Response:
 - `p3`: updated workgroup row
 
 ## CAPI_WorkgroupMemberAdd
-Path:
-- `/api/chronos/CAPI_WorkgroupMemberAdd`
-
 Request (`p3`):
 - `[0]` `group_uuid`
 - `[1]` `user_uuid`
@@ -401,9 +353,6 @@ Response:
 - `p3`: membership row (`membership_uuid`, `group_uuid`, `user_uuid`, `role`, `status`, `created_at_ms`, `updated_at_ms`)
 
 ## CAPI_WorkgroupMemberRemove
-Path:
-- `/api/chronos/CAPI_WorkgroupMemberRemove`
-
 Request (`p3`):
 - `[0]` `group_uuid`
 - `[1]` `user_uuid`
@@ -417,9 +366,6 @@ Response:
 - `p3[2]`: resulting status (`removed`)
 
 ## CAPI_ResourceCreate
-Path:
-- `/api/chronos/CAPI_ResourceCreate`
-
 Request (`p3`):
 - `[0]` `resource_type` (`room|equipment|vehicle|other`)
 - `[1]` `name`
@@ -434,9 +380,6 @@ Response:
 - `p3`: resource row
 
 ## CAPI_ResourcePatch
-Path:
-- `/api/chronos/CAPI_ResourcePatch`
-
 Request (`p3`):
 - `[0]` `resource_uuid`
 - `[1]` `name` (optional)
@@ -453,9 +396,6 @@ Response:
 - `p3`: updated resource row
 
 ## CAPI_ResourceCalendarAttach
-Path:
-- `/api/chronos/CAPI_ResourceCalendarAttach`
-
 Request (`p3`):
 - `[0]` `resource_uuid`
 - `[1]` `calendar_uuid`
@@ -468,9 +408,6 @@ Response:
 - `p3`: mapping row (`mapping_uuid`, `resource_uuid`, `calendar_uuid`, `is_primary`, `created_at_ms`)
 
 ## CAPI_ResourceList
-Path:
-- `/api/chronos/CAPI_ResourceList`
-
 Request (`p3`):
 - `[0]` `resource_type` (optional filter)
 - `[1]` `offset` (optional)
@@ -485,9 +422,6 @@ Response:
 - `p4`: resource rows
 
 ## CAPI_FreeBusyQuery
-Path:
-- `/api/chronos/CAPI_FreeBusyQuery`
-
 Request (`p3`):
 - `[0]` `range_start_at_ms`
 - `[1]` `range_end_at_ms`
@@ -508,9 +442,6 @@ Response:
   - `[3]` `busy_end_at_ms`
 
 ## CAPI_CompositeView
-Path:
-- `/api/chronos/CAPI_CompositeView`
-
 Request (`p3`):
 - `[0]` `range_start_at_ms`
 - `[1]` `range_end_at_ms`
@@ -526,9 +457,6 @@ Response:
 - `p4[2]`: conflict rows
 
 ## CAPI_SuggestSlots
-Path:
-- `/api/chronos/CAPI_SuggestSlots`
-
 Request (`p3`):
 - `[0]` `range_start_at_ms`
 - `[1]` `range_end_at_ms`
@@ -548,9 +476,6 @@ Response:
   - `[3]` `reason_codes_json`
 
 ## CAPI_ConflictCheck
-Path:
-- `/api/chronos/CAPI_ConflictCheck`
-
 Request (`p3`):
 - `[0]` `candidate_start_at_ms`
 - `[1]` `candidate_end_at_ms`
@@ -597,3 +522,4 @@ Chronos does not require a local ACL authority table for permissions.
 ## Versioning
 
 - `2026-03-15`: initial Chronos API manual created as chapter 13.
+
